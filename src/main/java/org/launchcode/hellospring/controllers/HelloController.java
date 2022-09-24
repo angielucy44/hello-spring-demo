@@ -10,11 +10,11 @@ public class HelloController {
     public String language;
 
 //     Handles get request at path /hello
-//    @GetMapping("hello")
-//    @ResponseBody
-//    public String hello() {
-//        return "Hello, Spring!";
-//    }
+    @GetMapping("")
+    @ResponseBody
+    public String hello() {
+        return "Hello, Spring!";
+    }
 
     //lives /hello/goodbye
     @GetMapping("goodbye")
