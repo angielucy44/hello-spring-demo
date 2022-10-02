@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@ResponseBody
 @RequestMapping("hello")
 public class HelloController {
     public String language;
@@ -18,6 +17,7 @@ public class HelloController {
 
     //lives /hello/goodbye
     @GetMapping("goodbye")
+    @ResponseBody
     public String goodbye() {
         return "Goodbye, Spring!";
     }
@@ -25,7 +25,7 @@ public class HelloController {
     // Handles request of the form /hello?name=LaunchCode
     //lives /hello/hello
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "hello")
-//    @PostMapping("hello")
+    @ResponseBody
     public String helloWithQueryParam(@RequestParam String name, String language) {
         return createMessage(name, language);
     }
@@ -33,6 +33,7 @@ public class HelloController {
     //Handles requests of the form /hello/LaunchCode
 
     @GetMapping("hello/{name}")
+    @ResponseBody
     public String helloWithPathParam(@PathVariable String name) {
         return "Hello, " + name + "!";
     }
@@ -40,23 +41,7 @@ public class HelloController {
     //lives /hello/form
     @GetMapping("form")
     public String helloForm() {
-        String html =
-                "<html>" +
-                        "<body>" +
-                        "<form action='hello' method='get'>" +
-                        "<input type='text' name='name'/>" +
-                        "<select name='language' id='language-select'>" +
-                        "<option value='english'>English</option>" +
-                        "<option value='french'>French</option>" +
-                        "<option value='spanish'>Spanish</option>" +
-                        "<option value='italian'>Italian</option>" +
-                        "<option value='german'>German</option>" +
-                        "</select>" +
-                        "<input type='submit' value='Greet me!'/>" +
-                        "</form>" +
-                        "</body>" +
-                        "</html>";
-        return html;
+        return "form";
     }
 
     public static String createMessage(String name, String language) {
