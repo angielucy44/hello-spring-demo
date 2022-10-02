@@ -1,62 +1,63 @@
 package org.launchcode.hellospring.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Chris Bay
+ */
 @Controller
-@RequestMapping("hello")
 public class HelloController {
-    public String language;
 
-//     Handles get request at path /hello
-    @GetMapping("")
-    @ResponseBody
-    public String hello() {
-        return "Hello, Spring!";
-    }
-
-    //lives /hello/goodbye
     @GetMapping("goodbye")
     @ResponseBody
     public String goodbye() {
         return "Goodbye, Spring!";
     }
 
-    // Handles request of the form /hello?name=LaunchCode
-    //lives /hello/hello
+    // Handles requests of the form /hello?name=LaunchCode
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "hello")
-    @ResponseBody
-    public String helloWithQueryParam(@RequestParam String name, String language) {
-        return createMessage(name, language);
+//    @ResponseBody
+    public String helloWithQueryParam(@RequestParam String name, Model model) {
+        String greeting = "Hello, " + name + "!";
+        //variable "greeting" is the second parameter in the below line. they need to match.
+//        the first parameter is the name of the variable in the template
+        model.addAttribute("greeting", greeting);
+        return "hello";
+//        return "Hello, " + name + "!";
     }
 
-    //Handles requests of the form /hello/LaunchCode
-
+    // Handles requests of the form /hello/LaunchCode
     @GetMapping("hello/{name}")
-    @ResponseBody
-    public String helloWithPathParam(@PathVariable String name) {
-        return "Hello, " + name + "!";
+//    @ResponseBody
+    public String helloWithPathParam(@PathVariable String name,Model model) {
+        String greeting = "Hello, " + name + "!";
+        model.addAttribute("greeting", greeting);
+        return "hello";
     }
 
-    //lives /hello/form
+    // /hello/form
     @GetMapping("form")
     public String helloForm() {
         return "form";
     }
 
-    public static String createMessage(String name, String language) {
-        String greeting = "";
-        if (language.equals("english")) {
-            greeting = "Hello";
-        } else if (language.equals("french")) {
-            greeting = "Bonjour";
-        } else if (language.equals("spanish")) {
-            greeting = "Hola";
-        } else if (language.equals("italian")) {
-            greeting = "Ciao";
-        } else if (language.equals("german")) {
-            greeting = "Hallo";
-        }
-        return greeting + " " + name + '!';
+    @GetMapping("hello-names")
+    public String helloNames(Model model) {
+        List<String> names = new ArrayList<>();
+        names.add("LaunchCode");
+        names.add("Java");
+        names.add("JavaScript");
+        model.addAttribute("names", names);
+        //first agrument is variable from template, second argument is value variable should have
+//        it is defined in this method
+        return "hello-list";
     }
-};
+}
+
+
+
